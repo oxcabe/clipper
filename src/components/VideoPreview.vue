@@ -29,14 +29,19 @@
           />
           <span class="label">Include Audio</span>
         </label>
-
-        <button
-          @click="handleExport"
-          :disabled="store.isProcessing"
-          class="export-button"
-        >
-          {{ store.isProcessing ? 'Processing...' : 'Export Clip' }}
-        </button>
+        <div class="export-controls">
+          <input
+            type="text"
+            v-model="outputFileName"
+            :placeholder="store.videoFile?.name ?? 'Output file name'" />
+          <button
+            @click="handleExport"
+            :disabled="store.isProcessing"
+            class="export-button"
+          >
+            {{ store.isProcessing ? 'Processing...' : 'Export Clip' }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -54,6 +59,7 @@ const { clipVideo } = useFFmpeg();
 const videoRef = ref<HTMLVideoElement | null>(null);
 const progress = ref(0);
 const currentUrl = ref<string>('');
+const outputFileName = ref<string>('')
 
 const videoUrl = computed(() => currentUrl.value);
 
@@ -104,7 +110,7 @@ async function handleExport() {
     const url = URL.createObjectURL(outputBlob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `clipped_${store.videoFile.name}`;
+    a.download = outputFileName.value;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -183,6 +189,13 @@ video {
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+}
+
+.export-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  align-content: stretch;
 }
 
 .export-button {
