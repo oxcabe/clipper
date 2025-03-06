@@ -14,21 +14,9 @@
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            nodejs_20
-            nodePackages.npm
-            nodePackages.typescript
-            nodePackages.typescript-language-server
-
-            # Development tools
-            nil # Nix LSP
-            nixpkgs-fmt
+            nodejs_23
+            pnpm
           ];
-
-          shellHook = ''
-            echo "Clipper development environment"
-            echo "Node.js version: $(node --version)"
-            echo "npm version: $(npm --version)"
-          '';
         };
       }
     );
