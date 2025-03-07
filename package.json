@@ -1,6 +1,7 @@
 {
   "name": "clipper",
   "private": true,
+  "description": "Browser based video editor",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
